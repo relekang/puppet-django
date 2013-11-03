@@ -1,0 +1,53 @@
+server {
+    server_name  www.<%= domain %>;
+    <% if @ssl_cert != '' %>
+    rewrite ^(.*) https://<%=domain %>$1 permanent;
+    <% else %>
+    rewrite ^(.*) http://<%=domain %>$1 permanent;
+    <% end %>
+}
+server {
+    listen 80;
+
+    <% if @ssl_cert != '' %>
+    listen   443 default ssl;
+    ssl_certificate      /etc/nginx/ssl/<%= ssl_cert %>.crt;
+    ssl_certificate_key  /etc/nginx/ssl/<%= ssl_cert %>.key;
+
+    if ($ssl_protocol = "") {
+       rewrite ^   https://$server_name$request_uri? permanent;
+    }
+    <% end %>
+
+    server_name <%= domain %>;
+
+    access_log /var/log/nginx/<%= title %>.access.log;
+    error_log /var/log/nginx/<%= title %>.error.log;
+
+    rewrite ^/apple-touch-icon-114x114-precomposed.png favicon.ico;
+    rewrite ^/apple-touch-icon-114x114.png favicon.ico;
+    rewrite ^/apple-touch-icon-precomposed.png favion.ico;
+    rewrite ^/apple-touch-icon.png favicon.ico;
+    rewrite ^/(.*)/favicon.ico$ /favicon.ico last;
+    
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass 127.0.0.1:<%= port %>;
+    }
+
+    location /static {
+        root <%= path %>/<%= title %>/<%= package %>;
+    }
+    location /uploads {
+        root <%= path %>/<%= title %>/<%= package %>;
+    }
+    
+    <% if @favicon == false %>
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
+        return 204;
+    }
+    <% end %>
+}

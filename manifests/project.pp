@@ -13,6 +13,13 @@ define django::project (
     source => $git_repo,
   }
 
+  django::nginx { $project:
+    $path    => $path,
+    $package => $package,
+    $domain  => $domain,
+    $port    => $port,
+  }
+
   uwsgi::vassal { $project:
     project    => $project,
     chdir      => "${path}/${project}",

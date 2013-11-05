@@ -10,10 +10,6 @@
 #   204 - No content. If it is set to false it will return 204. Default is false
 
 define django::nginx (
-  $::path,
-  $::package,
-  $::port,
-  $::domain,
   $ssl_cert = '',
   $favicon = false
 ) {

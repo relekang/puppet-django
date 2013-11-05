@@ -13,15 +13,9 @@ define django::project (
     provider => git,
     source   => $git_repo,
     user     => 'web',
-    require  => User['web']
   }
 
-  django::nginx { $title:
-    path    => $path,
-    package => $package,
-    domain  => $domain,
-    port    => $port,
-  }
+  django::nginx { $title: }
 
   uwsgi::vassal { $title:
     project    => $title,
@@ -36,6 +30,5 @@ define django::project (
     command => "${path}/${title}/venv/bin/python manage.py cleanup",
     user    => 'web',
     weekday => 1,
-    require => Class['django']
   }
 }

@@ -14,12 +14,10 @@ define django::nginx (
   $favicon = false
 ) {
   file {"${title}.conf":
-    path    => "/etc/nginx/sites-enabled/${title}.conf",
+    path    => "/etc/nginx/conf.d/${title}.conf",
     owner   => root,
     group   => root,
     mode    => '0640',
     content => template('nginx.erb'),
-    require => Package['nginx'],
-    notify  => Package['nginx']
   }
 }

@@ -18,6 +18,6 @@ define django::nginx (
     owner   => root,
     group   => root,
     mode    => '0640',
-    content => template('nginx.erb'),
+    content => template("${module_name}/nginx.erb"),
   }
 }

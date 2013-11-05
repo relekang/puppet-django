@@ -1,9 +1,9 @@
 # Class: django
 #
 
-class django {
-  $user = 'web',
-  $virtualenv_name = 'venv'
-} (
-
-)
+#class django {
+#  $user = 'web',
+#  $virtualenv_name = 'venv'
+#} (
+#
+#)

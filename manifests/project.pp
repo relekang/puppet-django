@@ -1,37 +1,39 @@
 # == Define: django::project
 
 define django::project (
-  $project,
   $package,
   $path,
   $domain,
   $port,
   $git_repo
 ) {
-  git::repo { $project:
-    path   => "${path}/${project}",
-    source => $git_repo,
+
+  vcsrepo { "${path}/${title}":
+    ensure   => present,
+    provider => git,
+    source   => $git_repo,
+    user     => 'web',
+    require  => User['web']
   }
 
-  django::nginx { $project:
-    $path    => $path,
-    $package => $package,
-    $domain  => $domain,
-    $port    => $port,
+  django::nginx { $title:
+    path    => $path,
+    package => $package,
+    domain  => $domain,
+    port    => $port,
   }
 
-  uwsgi::vassal { $project:
-    project    => $project,
-    chdir      => "${path}/${project}",
-    virtualenv => "${path}/${project}/venv",
-    wsgi_file  => "${path}/${project}/${package}/wsgi.py",
+  uwsgi::vassal { $title:
+    project    => $title,
+    chdir      => "${path}/${title}",
+    virtualenv => "${path}/${title}/venv",
+    wsgi_file  => "${path}/${title}/${package}/wsgi.py",
     port       => $port,
-    require    => Class['django']
   }
 
   cron { 'cleanup':
     ensure  => present,
-    command => "${path}/${project}/venv/bin/python manage.py cleanup",
+    command => "${path}/${title}/venv/bin/python manage.py cleanup",
     user    => 'web',
     weekday => 1,
     require => Class['django']

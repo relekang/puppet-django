@@ -30,5 +30,7 @@ define django::project (
     command => "${path}/${title}/venv/bin/python manage.py cleanup",
     user    => 'web',
     weekday => 1,
+    hour    => 3,
+    minute  => 3
   }
 }

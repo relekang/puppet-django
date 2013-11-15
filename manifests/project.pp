@@ -25,7 +25,7 @@ define django::project (
     port       => $port,
   }
 
-  cron { 'cleanup':
+  cron { "${title}-cleanup":
     ensure  => present,
     command => "${path}/${title}/venv/bin/python manage.py cleanup",
     user    => 'web',

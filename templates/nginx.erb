@@ -1,9 +1,9 @@
 server {
     server_name  www.<%= @domain %>;
     <% if @ssl_cert != '' %>
-    rewrite ^(.*) https://<%=domain %>$1 permanent;
+    rewrite ^(.*) https://<%= @domain %>$1 permanent;
     <% else %>
-    rewrite ^(.*) http://<%=domain %>$1 permanent;
+    rewrite ^(.*) http://<%= @domain %>$1 permanent;
     <% end %>
 }
 server {

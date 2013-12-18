@@ -27,7 +27,7 @@ define django::project (
 
   cron { "${title}-cleanup":
     ensure  => present,
-    command => "${path}/${title}/venv/bin/python manage.py cleanup",
+    command => "${path}/${title}/venv/bin/python ${path}/${title}/manage.py cleanup",
     user    => 'web',
     weekday => 1,
     hour    => 3,

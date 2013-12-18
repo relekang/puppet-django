@@ -5,7 +5,8 @@ define django::project (
   $path,
   $domain,
   $port,
-  $git_repo
+  $git_repo,
+  $max_body_size='4MB'
 ) {
 
   vcsrepo { "${path}/${title}":

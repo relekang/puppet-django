@@ -21,6 +21,8 @@ server {
 
     server_name <%= @domain %>;
 
+    client_max_body_size <%= @max_body_size %>;
+
     access_log /var/log/nginx/<%= @title %>.access.log;
     error_log /var/log/nginx/<%= @title %>.error.log;
 

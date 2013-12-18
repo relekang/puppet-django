@@ -19,7 +19,6 @@ define django::project (
   django::nginx { $title: }
 
   uwsgi::vassal { $title:
-    project    => $title,
     chdir      => "${path}/${title}",
     virtualenv => "${path}/${title}/venv",
     wsgi_file  => "${path}/${title}/${package}/wsgi.py",
